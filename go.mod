@@ -1,3 +1,3 @@
-module github.com/DrJLT/nosurf
+module github.com/DrJLT/csrf
 
 go 1.12

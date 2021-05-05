@@ -1,4 +1,4 @@
-package nosurf
+package csrf
 
 import (
 	"context"

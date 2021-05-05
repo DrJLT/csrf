@@ -1,4 +1,4 @@
-package nosurf
+package csrf
 
 import (
 	"encoding/base64"
