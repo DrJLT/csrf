@@ -94,6 +94,7 @@ func (h *CSRFHandler) setTokenCookie(w http.ResponseWriter, r *http.Request, tok
 	cookie := h.baseCookie
 	cookie.Name = cookieName
 	cookie.Value = base64.StdEncoding.EncodeToString(token)
+	cookie.HttpOnly = true
 
 	http.SetCookie(w, &cookie)
 }
