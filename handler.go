@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	cookieName = "wwords"
+	cookieName = "csrf"
 )
 
 // CSRFHandler is a struct
