@@ -68,7 +68,7 @@ func (h *CSRFHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// 	}
 	// }
 
-	sentToken, err := base64.StdEncoding.DecodeString(r.Header.Get("wwords"))
+	sentToken, err := base64.StdEncoding.DecodeString(r.Header.Get(cookieName))
 	if err != nil {
 		sentToken = nil
 	}
