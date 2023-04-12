@@ -3,19 +3,12 @@ package csrf
 import (
 	"crypto/rand"
 	"crypto/subtle"
-	"fmt"
 	"io"
-)
-
-const (
-	tokenLength = 32
 )
 
 func generateToken() []byte {
 	bytes := make([]byte, tokenLength)
-	if _, err := io.ReadFull(rand.Reader, bytes); err != nil {
-		panic(err)
-	}
+	io.ReadFull(rand.Reader, bytes)
 	return bytes
 }
 
@@ -24,16 +17,34 @@ func verifyToken(realToken, sentToken []byte) bool {
 	sentN := len(sentToken)
 	unmasked := unmaskToken(sentToken)
 	if realN == tokenLength && sentN == 2*tokenLength {
-		return len(unmasked) == tokenLength && subtle.ConstantTimeCompare(realToken, unmasked) == 1
+		return subtle.ConstantTimeCompare(realToken, unmasked) == 1
 	}
 	return false
 }
 
-func init() {
-	buf := make([]byte, 1)
-	_, err := io.ReadFull(rand.Reader, buf)
+// package csrf
 
-	if err != nil {
-		panic(fmt.Sprintf("crypto/rand is unavailable: Read() failed with %#v", err))
-	}
-}
+// import (
+// 	"encoding/base64"
+// 	"net/http"
+// )
+
+// type ctxKey int
+
+// const (
+// 	nosurfKey ctxKey = iota
+// )
+
+// // Token won't be available after CSRFHandler finishes
+// func Token(req *http.Request) string {
+// 	token, ok := req.Context().Value(nosurfKey).(*string)
+// 	if !ok {
+// 		return ""
+// 	}
+// 	return *token
+// }
+
+// func ctxSetToken(req *http.Request, token []byte) {
+// 	ctx := req.Context().Value(nosurfKey).(*string)
+// 	*ctx = base64.StdEncoding.EncodeToString(maskToken(token))
+// }

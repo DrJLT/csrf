@@ -5,7 +5,6 @@ import (
 	"io"
 )
 
-// Slices must be of the same length, or oneTimePad will panic
 func oneTimePad(data, key []byte) {
 	n := len(data)
 	if n != len(key) {
@@ -27,10 +26,7 @@ func maskToken(data []byte) []byte {
 	token := result[tokenLength:]
 	copy(token, data)
 
-	// generate the random token
-	if _, err := io.ReadFull(rand.Reader, key); err != nil {
-		panic(err)
-	}
+	io.ReadFull(rand.Reader, key)
 
 	oneTimePad(token, key)
 	return result
